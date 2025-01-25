@@ -11,7 +11,8 @@ public class SpringExampleApplication {
 
     /**
      * TODO: Контроллеры. Аннотации @Controller и @RestController ,
-     * TODO: Сервисы. Аннотация @Service
+     * TODO: Сервисы. Аннотация @Service ,
+     * TODO: Конфигурация Spring-приложений
      */
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(SpringExampleApplication.class, args);

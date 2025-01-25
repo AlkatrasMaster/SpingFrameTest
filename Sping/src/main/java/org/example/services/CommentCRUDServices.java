@@ -1,6 +1,7 @@
 package org.example.services;
 
 import org.example.dto.CommentDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -8,6 +9,9 @@ import java.util.TreeMap;
 
 @Service
 public class CommentCRUDServices implements CRUDService<CommentDto> {
+
+    @Value("${comment.length.max}")
+    private Integer maxLength;
 
     private final TreeMap<Integer, CommentDto> storage = new TreeMap<>();
 
@@ -28,6 +32,9 @@ public class CommentCRUDServices implements CRUDService<CommentDto> {
         System.out.println("Create");
         int nextId = (storage.isEmpty() ? 0 : storage.lastKey()) + 1;
         item.setId(nextId);
+        if (item.getText().length() > maxLength) {
+            throw new RuntimeException("Comment is too long");
+        }
         storage.put(nextId, item);
 
     }
@@ -37,6 +44,9 @@ public class CommentCRUDServices implements CRUDService<CommentDto> {
         System.out.println("Update " + id);
         if (!storage.containsKey(id)) {
             return;
+        }
+        if (item.getText().length() > maxLength) {
+            throw new RuntimeException("Comment is too long");
         }
         item.setId(id);
         storage.put(id, item);
